@@ -8,7 +8,7 @@ export type Item = {
     expanded: boolean;
 };
 
-export default class AccordionContainerStore {
+export default class AccordionStore {
     public readonly items: Item[];
     public readonly allowMultipleExpanded: boolean;
     public readonly allowZeroExpanded: boolean;
@@ -27,7 +27,7 @@ export default class AccordionContainerStore {
         this.allowZeroExpanded = allowZeroExpanded;
     }
 
-    public addItem = (newItem: Item): AccordionContainerStore => {
+    public addItem = (newItem: Item): AccordionStore => {
         if (this.items.some((item: Item) => item.uuid === newItem.uuid)) {
             // tslint:disable-next-line:no-console
             console.error(
@@ -54,16 +54,13 @@ export default class AccordionContainerStore {
         });
     };
 
-    public removeItem = (key: UUID): AccordionContainerStore => {
+    public removeItem = (key: UUID): AccordionStore => {
         return this.augment({
             items: this.items.filter((item: Item) => item.uuid !== key),
         });
     };
 
-    public setExpanded = (
-        key: UUID,
-        expanded: boolean,
-    ): AccordionContainerStore => {
+    public setExpanded = (key: UUID, expanded: boolean): AccordionStore => {
         if (this.isItemDisabled(key)) {
             return this;
         }
@@ -113,8 +110,8 @@ export default class AccordionContainerStore {
         items?: Item[];
         allowMultipleExpanded?: boolean;
         allowZeroExpanded?: boolean;
-    }): AccordionContainerStore {
-        return new AccordionContainerStore({
+    }): AccordionStore {
+        return new AccordionStore({
             items: this.items,
             allowMultipleExpanded: this.allowMultipleExpanded,
             allowZeroExpanded: this.allowZeroExpanded,
